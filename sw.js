@@ -1,6 +1,6 @@
 // Bump this version string whenever index.html (or its embedded content) changes,
 // so returning users get the fresh version instead of a stale cache.
-const CACHE_VERSION = "v2";
+const CACHE_VERSION = "v2.1";
 const CACHE_NAME = `poker-practice-${CACHE_VERSION}`;
 
 const CORE_ASSETS = [
