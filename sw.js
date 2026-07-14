@@ -1,6 +1,6 @@
 // Bump this version string whenever index.html (or its embedded content) changes,
 // so returning users get the fresh version instead of a stale cache.
-const CACHE_VERSION = "v1.1";
+const CACHE_VERSION = "v2";
 const CACHE_NAME = `poker-practice-${CACHE_VERSION}`;
 
 const CORE_ASSETS = [
@@ -39,6 +39,9 @@ self.addEventListener("activate", (event) => {
 self.addEventListener("fetch", (event) => {
   const { request } = event;
   if (request.method !== "GET") return;
+  // Ignore non-http(s) requests (e.g. chrome-extension://, moz-extension://) —
+  // the Cache API can't store these and will throw if we try.
+  if (!request.url.startsWith("http")) return;
 
   const isHTML = request.mode === "navigate" ||
     (request.headers.get("accept") || "").includes("text/html");
