@@ -2,7 +2,20 @@
 <html>
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
   <title>Poker Practice App</title>
+
+  <!-- PWA: installability + fullscreen -->
+  <link rel="manifest" href="./manifest.json">
+  <meta name="theme-color" content="#E8E2D6">
+  <link rel="icon" href="./icons/favicon.png">
+  <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
+
+  <!-- iOS: "Add to Home Screen" fullscreen behavior (iOS ignores the manifest's display mode) -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Poker Practice">
+
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { background: #E8E2D6; display: flex; align-items: center; justify-content: center; min-height: 100vh; font-family: -apple-system, BlinkMacSystemFont, sans-serif; }
@@ -207,6 +220,16 @@ document.addEventListener('DOMContentLoaded', async function() {
 
   <script type="__bundler/template">
 "<!DOCTYPE html>\n<html><head>\n<meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, viewport-fit=cover\">\n<title>Poker Practice App<\u002Ftitle>\n\n\n\n\n\n<style>html,body{margin:0;height:100%;background:#E8E2D6}iframe{border:0;width:100%;height:100%;display:block}<\u002Fstyle>\n<\u002Fhead>\n<body>\n<iframe id=\"app\" title=\"Poker Practice App\"><\u002Fiframe>\n<script>\n(function(){\n  var map = {\n    'Home.dc.html': 'pageHome',\n    'Practice Builder.dc.html': 'pageBuilder',\n    'Practice Session.dc.html': 'pageSession',\n    'Session Complete.dc.html': 'pageComplete'\n  };\n  function navigate(f){\n    var name = decodeURIComponent((f || '').split('/').pop());\n    var id = map[name];\n    if (id && window.__resources && window.__resources[id]) {\n      document.getElementById('app').src = window.__resources[id];\n    }\n  }\n  window.addEventListener('message', function(e){\n    if (e.data && e.data.__appNav) navigate(e.data.__appNav);\n  });\n  function boot(){\n    if (window.__resources && window.__resources.pageHome) { navigate('Home.dc.html'); }\n    else { setTimeout(boot, 60); }\n  }\n  boot();\n})();\n<\u002Fscript>\n\n<\u002Fbody><\u002Fhtml>"
+  </script>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('./sw.js').catch(function (err) {
+          console.warn('Service worker registration failed:', err);
+        });
+      });
+    }
   </script>
 </body>
 </html>
